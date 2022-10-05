@@ -1,5 +1,4 @@
 import folium
-import json
 
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
@@ -75,14 +74,29 @@ def show_pokemon(request, pokemon_id):
             pokemon_entity.lon,
             pokemon.photo.path
         )
-        pokemons_on_page = {
-            "pokemon_id": pokemon.id,
-            "title_ru": pokemon.title,
-            "title_en": pokemon.title_en,
-            "title_jp": pokemon.title_jp,
-            "img_url": pokemon.photo.url,
-            "description": pokemon.description
-        }
+        try:
+            pokemons_on_page = {
+                "pokemon_id": pokemon.id,
+                "title_ru": pokemon.title,
+                "title_en": pokemon.title_en,
+                "title_jp": pokemon.title_jp,
+                "img_url": pokemon.photo.url,
+                "description": pokemon.description,
+                "previous_evolution": {
+                    "title_ru": pokemon.previous_evolution.title,
+                    "pokemon_id": pokemon.previous_evolution.id,
+                    "img_url": pokemon.previous_evolution.photo.url
+                }
+            }
+        except AttributeError:
+            pokemons_on_page = {
+                "pokemon_id": pokemon.id,
+                "title_ru": pokemon.title,
+                "title_en": pokemon.title_en,
+                "title_jp": pokemon.title_jp,
+                "img_url": pokemon.photo.url,
+                "description": pokemon.description
+            }
 
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(), 'pokemon': pokemons_on_page
