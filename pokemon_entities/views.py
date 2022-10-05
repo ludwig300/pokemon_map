@@ -66,7 +66,8 @@ def show_all_pokemons(request):
 def show_pokemon(request, pokemon_id):
     pokemon = Pokemon.objects.get(id=pokemon_id)
     pokemons_entities = pokemon.pokemons.all()
-    # pokemons_on_page = []
+    pokemons_parents = pokemon.parent.all()
+    
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in pokemons_entities:
         add_pokemon(
@@ -88,6 +89,7 @@ def show_pokemon(request, pokemon_id):
                     "img_url": pokemon.previous_evolution.photo.url
                 }
             }
+
         except AttributeError:
             pokemons_on_page = {
                 "pokemon_id": pokemon.id,
@@ -96,6 +98,13 @@ def show_pokemon(request, pokemon_id):
                 "title_jp": pokemon.title_jp,
                 "img_url": pokemon.photo.url,
                 "description": pokemon.description
+            }
+
+        for pokemon_parent in pokemons_parents:
+            pokemons_on_page["next_evolution"] = {
+                "title_ru": pokemon_parent.title,
+                "pokemon_id": pokemon_parent.id,
+                "img_url": pokemon_parent.photo.url
             }
 
     return render(request, 'pokemon.html', context={
