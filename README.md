@@ -24,6 +24,12 @@
 pip install -r requirements.txt
 ```
 
+Создайте супер юзера для админ панели
+
+```sh
+python3 manage.py createsuperuser
+```
+
 Запустите разработческий сервер
 
 ```sh
