@@ -51,7 +51,7 @@ def show_all_pokemons(request):
             'img_url': img_url,
             'title_ru': pokemon.title,
         })
-        
+
     return render(request, 'mainpage.html', context={
         'map': folium_map._repr_html_(),
         'pokemons': pokemons_on_page,
@@ -70,30 +70,24 @@ def show_pokemon(request, pokemon_id):
             pokemon_entity.lon,
             pokemon.photo.path
         )
-        try:
-            pokemons_on_page = {
-                "pokemon_id": pokemon.id,
-                "title_ru": pokemon.title,
-                "title_en": pokemon.title_en,
-                "title_jp": pokemon.title_jp,
-                "img_url": pokemon.photo.url,
-                "description": pokemon.description,
-                "previous_evolution": {
-                    "title_ru": pokemon.previous_evolution.title,
-                    "pokemon_id": pokemon.previous_evolution.id,
-                    "img_url": pokemon.previous_evolution.photo.url
-                }
+        if pokemon.previous_evolution:
+            previous_evolution = {
+                "title_ru": pokemon.previous_evolution.title,
+                "pokemon_id": pokemon.previous_evolution.id,
+                "img_url": pokemon.previous_evolution.photo.url
             }
+        else:
+            previous_evolution = None
 
-        except AttributeError:
-            pokemons_on_page = {
-                "pokemon_id": pokemon.id,
-                "title_ru": pokemon.title,
-                "title_en": pokemon.title_en,
-                "title_jp": pokemon.title_jp,
-                "img_url": pokemon.photo.url,
-                "description": pokemon.description
-            }
+        pokemons_on_page = {
+            "pokemon_id": pokemon.id,
+            "title_ru": pokemon.title,
+            "title_en": pokemon.title_en,
+            "title_jp": pokemon.title_jp,
+            "img_url": pokemon.photo.url,
+            "description": pokemon.description,
+            "previous_evolution": previous_evolution
+        }
 
         for pokemon_evolution in pokemons_evolutions:
             pokemons_on_page["next_evolution"] = {
