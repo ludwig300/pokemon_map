@@ -4,8 +4,7 @@ from django.db import models
 class Pokemon(models.Model):
     title = models.CharField(
         max_length=200,
-        verbose_name='Имя покемона',
-        null=True
+        verbose_name='Имя покемона'
     )
     title_en = models.CharField(
         max_length=200,
@@ -27,7 +26,6 @@ class Pokemon(models.Model):
         "self",
         on_delete=models.CASCADE,
         verbose_name='Эволюция',
-        null=True,
         blank=True,
         related_name='parent'
     )
