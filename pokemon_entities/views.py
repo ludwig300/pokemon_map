@@ -65,8 +65,8 @@ def show_all_pokemons(request):
 
 def show_pokemon(request, pokemon_id):
     pokemon = Pokemon.objects.get(id=pokemon_id)
-    pokemons_entities = pokemon.pokemons.all()
-    pokemons_parents = pokemon.parent.all()
+    pokemons_entities = pokemon.pokemon_entity.all()
+    pokemons_evolutions = pokemon.evolution.all()
     
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in pokemons_entities:
@@ -100,11 +100,11 @@ def show_pokemon(request, pokemon_id):
                 "description": pokemon.description
             }
 
-        for pokemon_parent in pokemons_parents:
+        for pokemon_evolution in pokemons_evolutions:
             pokemons_on_page["next_evolution"] = {
-                "title_ru": pokemon_parent.title,
-                "pokemon_id": pokemon_parent.id,
-                "img_url": pokemon_parent.photo.url
+                "title_ru": pokemon_evolution.title,
+                "pokemon_id": pokemon_evolution.id,
+                "img_url": pokemon_evolution.photo.url
             }
 
     return render(request, 'pokemon.html', context={
