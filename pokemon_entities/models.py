@@ -21,7 +21,10 @@ class Pokemon(models.Model):
         verbose_name='Изображение',
         null=True
     )
-    description = models.TextField(verbose_name='Описание покемона')
+    description = models.TextField(
+        verbose_name='Описание покемона',
+        blank=True
+    )
     previous_evolution = models.ForeignKey(
         "self",
         on_delete=models.CASCADE,
