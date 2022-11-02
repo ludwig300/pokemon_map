@@ -31,17 +31,17 @@ class Pokemon(models.Model):
         verbose_name='Эволюция',
         blank=True,
         null=True,
-        related_name='evolution'
+        related_name='evolutions'
     )
 
     def __str__(self):
-        return f'{self.title}'
+        return self.title
 
 
 class PokemonEntity(models.Model):
     pokemon = models.ForeignKey(
         Pokemon, on_delete=models.CASCADE,
-        related_name='pokemon_entity',
+        related_name='pokemon_entities',
         verbose_name='Покемон',
     )
 

@@ -60,8 +60,8 @@ def show_all_pokemons(request):
 
 def show_pokemon(request, pokemon_id):
     pokemon = Pokemon.objects.get(id=pokemon_id)
-    pokemons_entities = pokemon.pokemon_entity.all()
-    pokemons_evolutions = pokemon.evolution.all()
+    pokemons_entities = pokemon.pokemon_entities.all()
+    pokemons_evolutions = pokemon.evolutions.all()
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in pokemons_entities:
